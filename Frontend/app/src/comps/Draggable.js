@@ -4,7 +4,7 @@ import { AppContext } from '../App';
 
 function Draggable() {
     const [btnText, setBtnText] = useState("GET STARTED")
-    const [state, setState, sentence, setSentence] = useContext(AppContext)
+    const [state, setState, sentence, setSentence, hashtags, setHashtags] = useContext(AppContext)
     let history = ["i ate today", "georgia tech", "my supper was great"]
 
     const toggleDragged = () => {
@@ -45,7 +45,7 @@ function Draggable() {
                 body: JSON.stringify(sentence),
                 mode: 'cors'
             }
-            ).then((x) => x.json()).then((y) => console.log(y))
+            ).then((x) => x.json()).then((y) => setHashtags(y['hashes'])).then((v) => console.log(hashtags))
             }
             getBackend()
         }

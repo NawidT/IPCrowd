@@ -14,9 +14,10 @@ function App() {
    */
   const [state, setState] = useState("open")
   const [sentence, setSentence] = useState("")
+  const [hashtags, setHashtags] = useState([])
 
   return (
-    <AppContext.Provider value={[state, setState, sentence, setSentence]}>
+    <AppContext.Provider value={[state, setState, sentence, setSentence, hashtags, setHashtags]}>
       <div className="App">
         <Slide />
         <Draggable />
