@@ -5,7 +5,7 @@ import { AppContext } from '../App';
 function Draggable() {
     const [btnText, setBtnText] = useState("GET STARTED")
     const [state, setState, sentence, setSentence, hashtags, setHashtags] = useContext(AppContext)
-    let history = ["i ate today", "georgia tech", "my supper was great"]
+    const [history, setHistory] = useState(["i ate today", "georgia tech", "my supper was great", "a new sentence"])
 
     const toggleDragged = () => {
         if (state == "type") {
@@ -35,6 +35,7 @@ function Draggable() {
         if (sentence != "" && state == 'type') {
             console.log(sentence)
             setState("return")
+
             async function getBackend() {
             const res = await fetch('http://localhost:5000/gethash', {
                 method: 'POST',
@@ -42,12 +43,14 @@ function Draggable() {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json' ,
                 },
-                body: JSON.stringify(sentence),
+                body: JSON.stringify({'sentence': sentence}),
                 mode: 'cors'
             }
             ).then((x) => x.json()).then((y) => setHashtags(y['hashes'])).then((v) => console.log(hashtags))
             }
+
             getBackend()
+            setHistory([...history, sentence])
         }
         toggleDragged()
     }
@@ -63,7 +66,6 @@ function Draggable() {
         <div className='content'>
             <button className='return-button' onClick={handleReturnButton}>{btnText}</button>
             {history.map((v) => {return <button className='each-sentence' onClick={(e) => handleHistoryClick(v)} >{"⏰ " + v}</button>})}
-            
         </div>
     </div> );
 }

@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_cors import CORS
 import pandas as pd
 import json
+from scipy import rand
 from sklearn.feature_extraction.text import TfidfVectorizer
 from data_preprocessing import clean_text, get_stopwords
 from tf_idf import get_hashtags
@@ -44,10 +45,9 @@ def first():
 
 @app.route('/gethash', methods=['GET', 'POST'])
 def getHashtags():
-    random_sentence = "georgia tech is the best school"
+    random_sentence = json.loads(request.data)['sentence']
     list_random_sentence = []
     list_random_sentence.append(random_sentence)
-
     add_new_sentence(list_random_sentence)
     return {'sentence': random_sentence ,'hashes': get_hashtags(vectorizer, feature_names, random_sentence)}
 
